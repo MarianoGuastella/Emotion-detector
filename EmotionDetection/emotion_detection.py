@@ -1,9 +1,13 @@
+import os
 import json
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def emotion_detector(text_to_analyze):
     api_url = "https://api.meaningcloud.com/sentiment-2.1"
-    api_key = "Your_key" 
+    api_key = os.getenv('API_KEY')
     params = {
         'key': api_key,
         'lang': 'en',  # Language of the text
