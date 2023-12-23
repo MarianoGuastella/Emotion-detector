@@ -1,32 +1,59 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="static/img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <script src="./static/mywebscript.js"></script>
-    <style>
-        .center-heading {
-            text-align: center;
-        }
-    </style>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script src="static/js/mywebscript.js"></script>
 </head>
 <body>
-    <div class="card">
-        <div class="card-body">
-            <h1 class="center-heading">NLP - Emotion Detection</h1> 
-            <div style="padding: 25px 25px 25px 25px;">
-            <h2 class="mb-3">
-                <label class="form-label">Please enter the text to be analyzed</label>
-                <input type="textarea" class="form-control" id="textToAnalyze">
-            </h2>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <h1 class="center-heading">NLP - Emotion Detection</h1> 
+                <hr>
+                <p class="website-description">
+                    This platform enables sentiment analysis of text using advanced Natural Language Processing (NLP) techniques. It provides an overall 
+                    sentiment score (positive, negative, neutral) for the entire text and identifies specific entities within the text that contribute 
+                    to the sentiment. These entities can include people, organizations, locations, products, and more.
+                </p>
+                <hr>
+                <div class="mb-3">
+                    <label class="form-label custom-label" for="textToAnalyze">Please enter the text to be analyzed</label>
+                    <textarea class="form-control" id="textToAnalyze" rows="4" placeholder="Enter text here..."></textarea>
+                </div>
 
-            <div style="padding: 25px 25px 25px 25px;">
-                <button onclick="RunSentimentAnalysis()" class="btn btn-secondary">Run Sentiment Analysis</button>
+                <div class="mb-3">
+                    <button onclick="RunSentimentAnalysis()" class="btn btn-secondary" id="sentimentButton">
+                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                        <span class="loading-text">Loading...</span>    
+                        <span class="default-text">Run Sentiment Analysis</span>
+                    </button>
+                </div>
+
+                <div class="mb-3">
+                    <h2 class="form-label custom-label">Result of Emotion Detection</h2>
+                </div>
+
+                <div id="system_response"></div>
             </div>
-            <div style="padding: 25px 25px 25px 25px;"></div>
-            <h2 class="mb-3">
-                <label class="form-label">Result of Emotion Detection</label>
-            </h2>
-
-            <div id="system_response" style="padding: 25px 25px 25px 25px;"></div>
         </div>
     </div>
+    
+    <script>
+        function showLoading() {
+            document.querySelector('.spinner-border').style.display = 'inline-block';
+            document.querySelector('.loading-text').style.display = 'inline-block';
+            document.querySelector('.default-text').style.display = 'none';
+        }
+
+        function hideLoading() {
+            document.querySelector('.spinner-border').style.display = 'none';
+            document.querySelector('.loading-text').style.display = 'none';
+            document.querySelector('.default-text').style.display = 'inline';
+        }
+    </script>
 </body>
+</html>
