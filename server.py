@@ -8,6 +8,8 @@ from EmotionDetection.emotion_detection import emotion_detector
 app = Flask("Emotion Detector")
 
 def map_sentiment_label(sentiment_label):
+    '''Maps the sentiment label to the full description
+    '''
     label_mapping = {
         'P+': 'Strong Positive',
         'P': 'Positive',
@@ -17,7 +19,7 @@ def map_sentiment_label(sentiment_label):
         'NONE': 'Without Polarity'
     }
 
-    return label_mapping.get(sentiment_label, sentiment_label)
+    return label_mapping[sentiment_label]
 
 @app.route("/emotionDetector")
 def emo_detector():
@@ -29,24 +31,26 @@ def emo_detector():
     text_to_analyze = request.args.get("textToAnalyze")
     sentiment_info = emotion_detector(text_to_analyze)
     status = sentiment_info['status']['msg']
-    
+
     if status != 'OK':
         return f"Invalid text! Please try again!. Error {status}"
 
-    sentiment_score = sentiment_info.get('score_tag', '')
+    sentiment_score = map_sentiment_label(sentiment_info.get('score_tag', ''))
     sentimented_entity_list = sentiment_info.get('sentimented_entity_list', [])
 
-    if sentimented_entity_list:
-        sentiment_label = sentimented_entity_list[0].get('form', '')
-        sentiment_label = map_sentiment_label(sentiment_label)
-    else:
-        sentiment_label = "No sentimented entities found."
-
     formatted_response = (
-    "For the given statement, the system response is:\n"
-    f"Score: {sentiment_score}\n"
-    f"Label: {sentiment_label}"
+        "For the given statement, the system response is:\n"
+        f"General Score: {sentiment_score}\n"
     )
+
+    for entity in sentimented_entity_list:
+        entity_form = entity.get('form', '')
+        entity_score = map_sentiment_label(entity.get('score_tag', ''))
+        formatted_response += f"Entity: {entity_form}, Score: {entity_score}\n"
+
+    if not sentimented_entity_list:
+        formatted_response += "No sentimented entities found."
+
     return formatted_response
 
 @app.route("/")
