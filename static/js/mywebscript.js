@@ -1,5 +1,4 @@
 function displayResponse(response) {
-    // Replace \n with <br> for line breaks
     response = response.replace(/\n/g, '<br>');
     document.getElementById("system_response").innerHTML = response;
 }
