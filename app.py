@@ -3,6 +3,7 @@
     localhost:5000.
 '''
 from flask import Flask, render_template, request
+from pydash import strings as pystr
 from emotion_detection.emotion_detection import emotion_detector
 
 app = Flask("Emotion Detector")
@@ -33,7 +34,8 @@ def emo_detector():
     status = sentiment_info['status']['msg']
 
     if status != 'OK':
-        return f"Invalid text! Please try again!. Error {status}"
+        escaped_status = pystr.escape(status)
+        return f"Invalid text! Please try again!. Error {escaped_status}"
 
     sentiment_score = map_sentiment_label(sentiment_info.get('score_tag', ''))
     sentimented_entity_list = sentiment_info.get('sentimented_entity_list', [])
@@ -51,7 +53,8 @@ def emo_detector():
     if not sentimented_entity_list:
         formatted_response += "No sentimented entities found."
 
-    return formatted_response
+    escaped_formatted_response = pystr.escape(formatted_response)
+    return escaped_formatted_response
 
 @app.route("/")
 def render_index_page():
