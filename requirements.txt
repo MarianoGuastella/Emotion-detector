@@ -2,3 +2,4 @@ Flask==3.0.0
 pydash==7.0.7
 requests==2.31.0
 python-dotenv==1.0.0
+urllib3>=2.6.3 # not directly required, pinned by Snyk to avoid a vulnerability
